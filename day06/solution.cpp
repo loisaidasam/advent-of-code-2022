@@ -1,3 +1,8 @@
+/**
+ * Day 6
+ *
+ * sets
+ */
 
 #include <iostream>
 #include <set>
