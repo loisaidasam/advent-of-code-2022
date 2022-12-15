@@ -1,12 +1,3 @@
-/**
- * Day 7
- * 
- * - classes
- * - pointers
- * - stringstream for splitting strings
- * - recursion
- */
-
 
 #include <iostream>
 #include <sstream>
