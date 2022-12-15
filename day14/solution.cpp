@@ -24,6 +24,7 @@ class Grid {
         int size;
         int xMin, xMax, yMin, yMax;
         void draw_mark(int x, int y, char mark) {
+            // cout << "draw_mark(" << x << ", " << y << ", " << "'" << mark << "'" << ");" << endl;
             this->grid[x][y] = mark;
             if (mark == '#') {
                 if (xMin == -1 || x < xMin) {
@@ -111,7 +112,9 @@ class Grid {
         bool drop_sand() {
             int x = 500;
             int y = 0;
+            // cout << "drop_sand()" << endl;
             while (true) {
+                // cout << x << "," << y << " ";
                 if (this->grid[x][y + 1] == '.') {
                     y++;
                 } else if (this->grid[x - 1][y + 1] == '.') {
@@ -122,18 +125,41 @@ class Grid {
                     y++;
                 } else {
                     // Can't move anywhere else
+                    // cout << endl;
                     break;
                 }
-                if (x < xMin) {
+                if (x < this->xMin) {
+                    // cout << endl;
                     return false;
-                } else if (x > xMax) {
+                } else if (x > this->xMax) {
+                    // cout << endl;
                     return false;
-                } else if (y > yMax) {
+                } else if (y > this->yMax) {
+                    // cout << endl;
                     return false;
                 }
             }
             this->draw_mark(x, y, 'o');
             return true;
+        }
+        void add_floor() {
+            // cout << "add_floor()" << endl;
+            int floor = this->yMax + 2;
+            // cout << floor << endl;
+            for (int x = 0; x < this->size; x++) {
+                this->draw_mark(x, floor, '#');
+            }
+        }
+        void reset_sand() {
+            // cout << "reset_sand()" << endl;
+            for (int x = 0; x < this->size; x++) {
+                for (int y = 0; y < this->size; y++) {
+                    if (this->grid[x][y] == 'o') {
+                        this->draw_mark(x, y, '.');
+                    }
+                }
+            }
+            // cout << "all clear!" << endl;
         }
         void print_min_max(int xMin, int xMax, int yMin, int yMax) {
             // cout << xMin << endl << xMax << endl << yMin << endl << yMax << endl;
@@ -159,6 +185,21 @@ int solution1(Grid* grid) {
     return num_sand_units;
 }
 
+/**
+ * Note: this solution won't work if ever x < 0 or x >= size
+ * 
+ * TODO: Implement a solution that leverages a sparse grid/coordinate system
+ */
+int solution2(Grid* grid) {
+    grid->add_floor();
+    int num_sand_units = 0;
+    while (grid->grid[500][0] != 'o') {
+        grid->drop_sand();
+        num_sand_units++;
+    }
+    return num_sand_units;
+}
+
 int main() {
     // Not sure how big this thing actually is, just using 1k ...
     int size = 1000;
@@ -170,5 +211,7 @@ int main() {
     //     grid->print();
     // }
     cout << solution1(grid) << endl;
+    grid->reset_sand();
+    cout << solution2(grid) << endl;
     return 0;
 }
