@@ -75,3 +75,20 @@ Note: I modified the inputs to just be space-separated ints instead of parsing a
 ~..........
 ~..........
 ```
+
+## Day 16: Proboscidea Volcanium
+
+30 minutes to release the most pressure from a volcano by opening valves in a tunnel-connected map
+
+> What is the most pressure you can release?
+
+This one's got it all!
+
+- classes
+- string streams
+- unordered maps
+- unordered sets
+- vectors
+- graph traversal
+
+Current implementation uses a brute force approach to finding all possible graph traversals and choosing the one that releases the maximum amount of pressure. It used all of the memory on my box and swapped until I ran out of disk :scream:
