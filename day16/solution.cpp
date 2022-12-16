@@ -150,15 +150,21 @@ int solution(Network* network) {
     State* state = new State(network, "AA", 1, 0);
     queue<State*> states;
     states.push(state);
-    vector<State*> finished_states;
     State* new_state;
+    int max_released = 0;
     while (states.size() > 0) {
         cout << "num states: " << states.size() << endl;
         state = states.front();
         // state->print();
         if (! state->is_time_left()) {
             states.pop();
-            finished_states.push_back(state);
+            cout << "finished state, pressure_released=" << state->pressure_released;
+            if (state->pressure_released > max_released) {
+                max_released = state->pressure_released;
+                cout << " MAX!";
+            }
+            delete state;
+            cout << endl;
             continue;
         }
         if (! state->valves_left_to_open()) {
@@ -189,14 +195,7 @@ int solution(Network* network) {
             new_state->move_to(*it);
             states.push(new_state);
         }
-    }
-    int max_released = 0;
-    for (vector<State*>::iterator it = finished_states.begin();
-            it != finished_states.end();
-            ++it) {
-        if ((*it)->pressure_released > max_released) {
-            max_released = (*it)->pressure_released;
-        }
+        delete state;
     }
     return max_released;
 }
