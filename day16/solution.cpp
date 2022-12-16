@@ -153,6 +153,7 @@ int solution(Network* network) {
     vector<State*> finished_states;
     State* new_state;
     while (states.size() > 0) {
+        cout << "num states: " << states.size() << endl;
         state = states.front();
         // state->print();
         if (! state->is_time_left()) {
